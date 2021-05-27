@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Detail Repository{% endblock %}
+
+{% block content %}
+    {{ repository.name }}
+    <table border="1">
+        <tbody>
+        {% for introduction in repository.introduction_set.all %}
+            <tr>
+                <td>Version: {{ introduction.version }}</td>
+                <td>삭제</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

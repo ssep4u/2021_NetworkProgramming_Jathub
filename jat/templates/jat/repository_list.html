@@ -9,7 +9,7 @@
         {% for repository in repository_list %}
             <tr>
                 <td>수정</td>
-                <td>{{ repository.name }}</td>
+                <td><a href="{% url 'jat:repository_detail' pk=repository.pk %}">{{ repository.name }}</a></td>
                 <td>Date: {{ repository.deadline }}</td>
                 <td>삭제</td>
             </tr>
