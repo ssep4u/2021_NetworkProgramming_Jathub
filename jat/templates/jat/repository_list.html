@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}List Repository{% endblock %}
+
+{% block content %}
+    {% for repository in repository_list %}
+        {{ repository }}
+    {% endfor %}
+{% endblock %}
