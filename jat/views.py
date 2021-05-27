@@ -6,3 +6,7 @@ from jat.models import Repository
 
 class RepositoryListView(generic.ListView):
     model = Repository
+
+
+class RepositoryDetailView(generic.DetailView):
+    model = Repository
