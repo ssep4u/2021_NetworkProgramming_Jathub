@@ -8,7 +8,7 @@
         <tbody>
         {% for introduction in repository.introduction_set.all %}
             <tr>
-                <td>Version: {{ introduction.version }}</td>
+                <td>Version: <a href="{% url 'jat:introduction_detail' repository_pk=repository.pk pk=introduction.pk %}">{{ introduction.version }}</a></td>
                 <td>삭제</td>
             </tr>
         {% endfor %}
