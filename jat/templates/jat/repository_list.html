@@ -4,6 +4,7 @@
 
 {% block content %}
     {{ repository_list.count }} Repository
+    <a href="{% url 'jat:repository_add' %}">Add Repository</a>
     <table border="1">
         <tbody>
         {% for repository in repository_list %}
