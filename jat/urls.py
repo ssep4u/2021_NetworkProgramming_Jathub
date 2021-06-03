@@ -11,4 +11,7 @@ urlpatterns = [
     path('repository/add/', views.RepositoryCreateView.as_view(), name='repository_add'),    #jat:repository_add
     path('repository/<int:pk>/modify/', views.RepositoryUpdateView.as_view(), name='repository_modify'),    #jat:repository_modify
     path('repository/<int:pk>/delete/', views.RepositoryDeleteView.as_view(), name='repository_delete'),    #jat:repository_delete
+    path('repository/<int:repository_pk>/introduction/add/', views.IntroductionCreateView.as_view(), name='introduction_add'),
+    path('repository/<int:repository_pk>/introduction/<int:pk>/modify/', views.IntroductionUpdateView.as_view(), name='introduction_modify'),
+    path('repository/<int:repository_pk>/introduction/<int:pk>/delete/', views.IntroductionDeleteView.as_view(), name='introduction_delete'),
 ]
