@@ -4,17 +4,17 @@
 
 {% block content %}
     {{ repository_list.count }} Repository
-    <a href="{% url 'jat:repository_add' %}">Add Repository</a>
-    <table border="1">
+    <a href="{% url 'jat:repository_add' %}"><i class="bi bi-plus-lg"></i></a>
+    <table class="table w-50">
         <tbody>
         {% for repository in repository_list %}
             <tr>
-                <td><a href="{% url 'jat:repository_modify' pk=repository.pk %}">수정</a></td>
+                <td class="align-middle"><a href="{% url 'jat:repository_modify' pk=repository.pk %}"><i class="bi bi-pencil-fill"></i></a></td>
                 <td>
                     <a href="{% url 'jat:repository_detail' pk=repository.pk %}">{{ repository.name }}<br>
                     Date: {{ repository.deadline|date:'Y/m/d h:i' }}</a>
                 </td>
-                <td><a href="{% url 'jat:repository_delete' pk=repository.pk %}">삭제</a></td>
+                <td class="align-middle"><a href="{% url 'jat:repository_delete' pk=repository.pk %}"><i class="bi bi-trash"></i></a></td>
             </tr>
         {% endfor %}
         </tbody>
