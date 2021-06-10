@@ -10,8 +10,10 @@
         {% for repository in repository_list %}
             <tr>
                 <td><a href="{% url 'jat:repository_modify' pk=repository.pk %}">수정</a></td>
-                <td><a href="{% url 'jat:repository_detail' pk=repository.pk %}">{{ repository.name }}</a></td>
-                <td>Date: {{ repository.deadline }}</td>
+                <td>
+                    <a href="{% url 'jat:repository_detail' pk=repository.pk %}">{{ repository.name }}<br>
+                    Date: {{ repository.deadline|date:'Y/m/d h:i' }}</a>
+                </td>
                 <td><a href="{% url 'jat:repository_delete' pk=repository.pk %}">삭제</a></td>
             </tr>
         {% endfor %}
