@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from jat.models import Repository, Introduction
+from jat.models import Repository, Introduction, Comment
 
 
 class RepositoryListView(generic.ListView):
@@ -72,3 +72,45 @@ class IntroductionDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('jat:repository_detail', kwargs={'pk': self.kwargs['repository_pk']})
+
+
+class CommentCreateView(generic.CreateView):  # repository/<int:repository_pk>/introduction/<int:introduction_pk>/comment/add/
+    model = Comment
+    fields = '__all__'  # ['introduction', 'comment']
+    template_name_suffix = '_create'  # comment_create.html
+
+    def get_initial(self):
+        introduction = get_object_or_404(Introduction, pk=self.kwargs['introduction_pk'])
+        return {'introduction': introduction}
+
+    def get_success_url(self):  # jat:introduction_detail repository_pk pk
+        kwargs = {
+            'repository_pk': self.kwargs['repository_pk'],
+            'pk': self.kwargs['introduction_pk'],
+        }
+        return reverse_lazy('jat:introduction_detail', kwargs=kwargs)   #repository/<int:repository_pk>/introduction/<int:pk>/
+
+
+class CommentUpdateView(generic.UpdateView):
+    model = Comment
+    fields = '__all__'  # ['introduction', 'comment']
+    template_name_suffix = '_update'  # comment_update.html
+
+    def get_success_url(self):  # jat:introduction_detail repository_pk pk
+        kwargs = {
+            'repository_pk': self.kwargs['repository_pk'],
+            'pk': self.kwargs['introduction_pk'],
+        }
+        return reverse_lazy('jat:introduction_detail', kwargs=kwargs)  # repository/<int:repository_pk>/introduction/<int:pk>/
+
+
+class CommentDeleteView(generic.DeleteView):
+    model = Comment
+
+    def get_success_url(self):  # jat:introduction_detail repository_pk pk
+        kwargs = {
+            'repository_pk': self.kwargs['repository_pk'],
+            'pk': self.kwargs['introduction_pk'],
+        }
+        return reverse_lazy('jat:introduction_detail', kwargs=kwargs)  # repository/<int:repository_pk>/introduction/<int:pk>/
+
