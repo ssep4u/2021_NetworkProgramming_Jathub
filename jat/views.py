@@ -1,8 +1,9 @@
 from django.db.models import Max
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
+from jat.forms import IntroductionForm
 from jat.models import Repository, Introduction, Comment
 
 
@@ -56,6 +57,33 @@ class IntroductionCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse_lazy('jat:repository_detail', kwargs={'pk': self.kwargs['repository_pk']})
+
+
+def add_introduction(request, repository_pk):  # return render(request, '템플릿 이름', 그템플릿에 넘겨주는 context)
+    if request.method == 'POST':    #POST라면
+        form = IntroductionForm(request.POST)   #  introduction 만드는 form에서 입력한 정보 가져오자
+        if form.is_valid(): #  그 정보가 확인되면
+            form.save()     #    DB에 저장
+            return redirect('jat:repository_detail', pk=repository_pk)   #    repository_detail로 redirect
+    else:   #POST가 아니면(요청한 것: introduction 만들기위한 form 보여주기)
+        repository = get_object_or_404(Repository, pk=repository_pk)    #  repository를 DB에서 꺼내자
+        introduction = repository.introduction_set.order_by('-version').first()
+        #  version을 구하자
+        #  contents(introduction 내용) 가져오자
+        if introduction == None:
+            version = 1     #    introduction이 없으면 version = 1
+            contents = ''   #    introduction이 없으면 ''
+            access = 1
+        else:
+            version = introduction.version + 1  #    repository에 있는 introduction 중 가장 큰 버전 + 1
+            contents = introduction.contents    #    introduction 중 가장 큰 버전의 contents를 가져오자
+            access = introduction.access
+        initial = {'repository': repository, 'version': version, 'contents': contents, 'access': access}
+        form = IntroductionForm(initial=initial)   #  form 가져오자
+        context = {'form': form, 'repository': repository}    #  context = form, repository
+
+    return render(request, 'jat/introduction_create.html', context)
+
 
 
 class IntroductionUpdateView(generic.UpdateView):
